@@ -1,16 +1,19 @@
 package main
 
 import (
+	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 func main() {
 	str := "23-ab-48-caba-56-haha-15-l"
-	testValidity(str)
-	averageNumber(str)
-	wholeStory(str)
+	// testValidity(str)
+	// averageNumber(str)
+	// wholeStory(str)
+	storyStats(str)
 }
 
 func extractText(str string) []string {
@@ -73,4 +76,34 @@ func wholeStory(str string) string {
 	matches := extractText(str)
 
 	return strings.Join(matches, " ")
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 15 mins
+- Implemented time: 10 mins
+*/
+
+func storyStats(str string) (shortestWordList []string, longestWordList []string, avgWordLength float64, sameSizeWordlist []string) {
+	words := extractText(str)
+	if len(words) == 0 {
+		return nil, nil, 0, nil
+	}
+	m := make(map[int][]string)
+	var keys []int
+	wLength := 0
+	for _, w := range words {
+		m[len(w)] = append(m[len(w)], w)
+		keys = append(keys, len(w))
+		wLength += len(w)
+	}
+	sort.Ints(keys)
+	shortestWordList = m[keys[0]]
+	longestWordList = m[keys[len(keys)-1]]
+	avgWordLength = float64(wLength) / float64(len(words))
+	avgKey := int(math.Round(avgWordLength))
+	if val, ok := m[avgKey]; ok {
+		sameSizeWordlist = val
+	}
+	return
 }
