@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -82,6 +83,58 @@ func TestWholeStory(t *testing.T) {
 		if output := wholeStory(test.arg); output != test.expected {
 			fmt.Println(output, test)
 			t.Errorf("Output %q not equal to expected %q", output, test.expected)
+		}
+	}
+}
+
+type testStoryStats struct {
+	arg      string
+	expected expectedStoryStats
+}
+
+type expectedStoryStats struct {
+	shortestWordList []string
+	longestWordList  []string
+	avgWordLength    float64
+	sameSizeWordlist []string
+}
+
+var testStoryStatsList = []testStoryStats{
+	{"23-ab-48-caba-56-haha", expectedStoryStats{
+		[]string{"ab"}, []string{"caba", "haha"}, float64(2+4+4) / float64(3), nil,
+	}},
+	{"1-hello-2-world", expectedStoryStats{
+		[]string{"hello", "world"}, []string{"hello", "world"}, 5, []string{"hello", "world"},
+	}},
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 10 mins
+- Implemented time: 10 mins
+*/
+func TestStoryStats(t *testing.T) {
+	for _, test := range testStoryStatsList {
+		output1, output2, output3, output4 := storyStats(test.arg)
+
+		if !reflect.DeepEqual(output1, test.expected.shortestWordList) {
+			fmt.Println(output1, test)
+			t.Errorf("Output %q not equal to expected %q", output1, test.expected.shortestWordList)
+		}
+
+		if !reflect.DeepEqual(output2, test.expected.longestWordList) {
+			fmt.Println(output2, test)
+			t.Errorf("Output %q not equal to expected %q", output2, test.expected.longestWordList)
+		}
+
+		if output3 != test.expected.avgWordLength {
+			fmt.Println(output3, test)
+			t.Errorf("Output %f not equal to expected %f", output3, test.expected.avgWordLength)
+		}
+
+		if !reflect.DeepEqual(output4, test.expected.sameSizeWordlist) {
+			fmt.Println(output2, test)
+			t.Errorf("Output %q not equal to expected %q", output4, test.expected.sameSizeWordlist)
 		}
 	}
 }
