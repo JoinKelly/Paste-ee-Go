@@ -5,15 +5,42 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"testing"
 	"time"
 )
 
+type testTestValidity struct {
+	arg      string
+	expected bool
+}
+
+var testTestValidities = []testTestValidity{
+	{"23-ab-48-caba-56-haha", true},
+	{"23-ab", true},
+	{"23-ab-48-caba-56-", false},
+	{"23-ab-48-caba-56-ha1", false},
+}
+
 /**
 - Difficulity: Easy
-- Estimated time: 10 mins
+- Estimated time: 7 mins
 - Implemented time: 7 mins
 */
 
+func TestTestValidity(t *testing.T) {
+	for _, test := range testTestValidities {
+		if output := testValidity(test.arg); output != test.expected {
+			fmt.Println(output, test)
+			t.Errorf("Output %t not equal to expected %t", output, test.expected)
+		}
+	}
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 15 mins
+- Implemented time: 20 mins
+*/
 func randomStrList(flag bool) (randomStrList []string) {
 	rand.Seed(time.Now().UnixNano())
 	stringCount := randInt(1, 3)
