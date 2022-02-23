@@ -61,6 +61,31 @@ func TestAverageNumber(t *testing.T) {
 	}
 }
 
+type testWholeStory struct {
+	arg      string
+	expected string
+}
+
+var testWholeStories = []testWholeStory{
+	{"23-ab-48-caba-56-haha", "ab caba haha"},
+	{"23-ab", "ab"},
+	{"1-hello-2-world", "hello world"},
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 7 mins
+- Implemented time: 5 mins
+*/
+func TestWholeStory(t *testing.T) {
+	for _, test := range testWholeStories {
+		if output := wholeStory(test.arg); output != test.expected {
+			fmt.Println(output, test)
+			t.Errorf("Output %q not equal to expected %q", output, test.expected)
+		}
+	}
+}
+
 /**
 - Difficulity: Easy
 - Estimated time: 15 mins
