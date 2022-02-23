@@ -3,12 +3,20 @@ package main
 import (
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 func main() {
 	str := "23-ab-48-caba-56-haha-15-l"
 	testValidity(str)
 	averageNumber(str)
+	wholeStory(str)
+}
+
+func extractText(str string) []string {
+	const pattern = "[a-zA-Z]+"
+	r := regexp.MustCompile(pattern)
+	return r.FindAllString(str, -1)
 }
 
 func extractNumbers(str string) (numberList []int) {
@@ -53,4 +61,16 @@ func averageNumber(str string) float64 {
 	}
 
 	return (float64(sum)) / (float64(len(matches)))
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 1 mins
+- Implemented time: 1 mins
+*/
+
+func wholeStory(str string) string {
+	matches := extractText(str)
+
+	return strings.Join(matches, " ")
 }
