@@ -36,6 +36,31 @@ func TestTestValidity(t *testing.T) {
 	}
 }
 
+type testAverageNumber struct {
+	arg      string
+	expected float64
+}
+
+var testAverageNumbers = []testAverageNumber{
+	{"23-ab-48-caba-56-haha", float64(23+48+56) / float64(3)},
+	{"23-ab", 23},
+	{"1-hello-2-world", 1.5},
+}
+
+/**
+- Difficulity: Easy
+- Estimated time: 7 mins
+- Implemented time: 7 mins
+*/
+func TestAverageNumber(t *testing.T) {
+	for _, test := range testAverageNumbers {
+		if output := averageNumber(test.arg); output != test.expected {
+			fmt.Println(output, test)
+			t.Errorf("Output %f not equal to expected %f", output, test.expected)
+		}
+	}
+}
+
 /**
 - Difficulity: Easy
 - Estimated time: 15 mins
